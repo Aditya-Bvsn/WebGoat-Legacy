@@ -12,6 +12,14 @@ pipeline {
   }
 
   stages {
+    stage('Verify Java') {
+      steps {
+        sh 'java -version'
+        sh 'mvn -version'
+      }
+    }
+
+  stages {
     stage('Build') {
       steps {
         sh 'mvn -B -Dproject.version=$BUILD_VERSION -Dmaven.test.failure.ignore clean package'
