@@ -38,4 +38,22 @@ pipeline {
             advancedProperties: '',
             enableDebugLogging: false,
             failBuildOnNetworkError: false,
-            failBuildOnScanningErrors
+            failBuildOnScanningErrors: false,
+            iqApplication: selectedApplication('webgoat'),
+            iqInstanceId: 'nxiq',
+            iqScanPatterns: [[scanPattern: '**/*.war']],
+            iqStage: 'build',
+            reachability: [
+              javaAnalysis: [
+                enable: true
+              ]
+            ]
+          )
+
+          echo "Nexus IQ scan succeeded: ${policyEvaluation.applicationCompositionReportUrl}"
+          env.IQ_SCAN_URL = policyEvaluation.applicationCompositionReportUrl
+        }
+      }
+    }
+  }
+}
