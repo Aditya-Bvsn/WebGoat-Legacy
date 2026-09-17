@@ -19,7 +19,6 @@ pipeline {
       }
     }
 
-  stages {
     stage('Build') {
       steps {
         sh 'mvn -B -Dproject.version=$BUILD_VERSION -Dmaven.test.failure.ignore clean package'
@@ -39,23 +38,4 @@ pipeline {
             advancedProperties: '',
             enableDebugLogging: false,
             failBuildOnNetworkError: false,
-            failBuildOnScanningErrors: false,
-            iqApplication: selectedApplication('webgoat'),
-            iqInstanceId: 'nxiq',
-            iqScanPatterns: [[scanPattern: '**/*.war']],
-            iqStage: 'build',
-            reachability: [
-              javaAnalysis: [
-                enable: true
-              ]
-            ]
-          )
-
-          echo "Nexus IQ scan succeeded: ${policyEvaluation.applicationCompositionReportUrl}"
-          env.IQ_SCAN_URL = policyEvaluation.applicationCompositionReportUrl
-        }
-      }
-    }
-  }
-}
-}  
+            failBuildOnScanningErrors
